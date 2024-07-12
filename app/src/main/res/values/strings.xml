@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">StationsDistance</string>
+
+    <string name="main_title">Calculate the distance</string>
+    <string name="station_of_origin">From:</string>
+    <string name="station_of_destination">To:</string>
+    <string name="common_search">Search</string>
+</resources>
