@@ -5,4 +5,6 @@
     <string name="station_of_origin">From:</string>
     <string name="station_of_destination">To:</string>
     <string name="common_search">Search</string>
+    <string name="search_ellipsis">Search…</string>
+
 </resources>

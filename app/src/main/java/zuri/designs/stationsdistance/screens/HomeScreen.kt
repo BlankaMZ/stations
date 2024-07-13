@@ -94,7 +94,8 @@ fun TextWithField(
             modifier
                 .weight(3f)
                 .clickable { onPlaceFieldClicked() },
-            singleLine = true
+            singleLine = true,
+            enabled = false
         )
     }
 }

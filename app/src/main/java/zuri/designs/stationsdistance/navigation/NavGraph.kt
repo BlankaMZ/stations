@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import zuri.designs.stationsdistance.screens.HomeScreen
+import zuri.designs.stationsdistance.screens.SearchStationScreen
 
 @Composable
 fun SetupNavGraph(navController: NavHostController) {
@@ -13,10 +14,14 @@ fun SetupNavGraph(navController: NavHostController) {
         startDestination = Screen.Home.route
     ) {
         composable(route = Screen.Home.route) {
-            HomeScreen(navController = navController)
+            HomeScreen(
+                navController = navController,
+                onSetOriginStationClicked = { navController.navigate(Screen.SearchStation.route) },
+                onSetDestinationClicked = { navController.navigate(Screen.SearchStation.route) }
+            )
         }
-//        composable(route = Screen.Search.route) {
-//            SearchScreen(navController = navController)
-//        }
+        composable(route = Screen.SearchStation.route) {
+            SearchStationScreen(navController = navController)
+        }
     }
 }
