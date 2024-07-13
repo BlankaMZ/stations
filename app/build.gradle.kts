@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
     id("dagger.hilt.android.plugin")
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 android {
@@ -50,9 +51,11 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    ktlint {
+        disabledRules.set(listOf("no-wildcard-imports"))
+    }
 }
-
-
 
 dependencies {
 
@@ -71,13 +74,13 @@ dependencies {
     // Navigation
     implementation("androidx.navigation:navigation-compose:$navVersion")
 
-    //Room
+    // Room
     implementation("androidx.room:room-runtime:$roomVersion")
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
 
-    //Retrofit
+    // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")

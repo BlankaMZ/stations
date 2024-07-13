@@ -30,9 +30,8 @@ fun HomeScreen(
     onSetDestinationClicked: () -> Unit = {},
     onSearchButtonClicked: () -> Unit = {},
     viewModel: HomeScreenViewModel = hiltViewModel(),
-    navController: NavHostController,
+    navController: NavHostController
 ) {
-
     Scaffold(
         topBar = { TopAppBar(title = { Text(stringResource(id = R.string.main_title)) }) },
         modifier = modifier.fillMaxSize()
@@ -89,11 +88,13 @@ fun TextWithField(
             name,
             modifier = Modifier.weight(1f)
         )
-        TextField(value = "", onValueChange = {},
+        TextField(
+            value = "",
+            onValueChange = {},
             modifier
                 .weight(3f)
-                .clickable { onPlaceFieldClicked() }, singleLine = true
+                .clickable { onPlaceFieldClicked() },
+            singleLine = true
         )
     }
-
 }
