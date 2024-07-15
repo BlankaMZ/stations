@@ -13,4 +13,6 @@ plugins {
     id("com.google.dagger.hilt.android") version "2.48" apply false
     id("io.gitlab.arturbosch.detekt") version("1.23.3")
     id("org.jlleitschuh.gradle.ktlint") version "11.6.1"
+    kotlin("jvm") version "1.9.24"
+    kotlin("plugin.serialization") version "1.9.24"
 }

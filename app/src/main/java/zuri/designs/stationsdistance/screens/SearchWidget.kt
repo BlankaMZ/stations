@@ -23,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import zuri.designs.stationsdistance.R
+import zuri.designs.stationsdistance.data.model.StationKeyword
 
 @Composable
 fun SearchWidget(
@@ -83,7 +84,7 @@ fun SearchWidget(
 
 @Composable
 fun ListContent(
-    items: List<String>,
+    items: List<StationKeyword>,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -94,7 +95,7 @@ fun ListContent(
         items(
             items
         ) {
-            Text(it)
+            Text(it.keyword)
         }
     }
 }
