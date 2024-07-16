@@ -18,7 +18,7 @@ fun SearchStationScreen(
     modifier: Modifier = Modifier,
     viewModel: SearchStationViewModel = hiltViewModel()
 ) {
-    val searchQuery by viewModel.searchQuery
+    val searchQuery by viewModel.searchQuery.collectAsState()
     val list = viewModel.keywords.collectAsState(initial = emptyList())
 
     Scaffold(
@@ -28,9 +28,6 @@ fun SearchStationScreen(
                 onTextChange = {
                     viewModel.updateSearchQuery(query = it)
                 },
-                onSearchClicked = {
-                    viewModel.searchStationKeywords(query = it)
-                },
                 onCloseClicked = {
                     navController.popBackStack()
                 }
@@ -38,7 +35,9 @@ fun SearchStationScreen(
         },
         content = {
             ListContent(
-                modifier = modifier.padding(top = it.calculateTopPadding()).fillMaxSize(),
+                modifier = modifier
+                    .padding(top = it.calculateTopPadding())
+                    .fillMaxSize(),
                 items = list.value
             )
         }

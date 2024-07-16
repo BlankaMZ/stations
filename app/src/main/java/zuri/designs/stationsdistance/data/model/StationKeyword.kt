@@ -22,10 +22,30 @@ data class StationKeyword(
     val id: Int,
     val keyword: String,
     val stationId: Int
-)
+) {
+    fun doesMatchSearchQuery(query: String): Boolean {
+        return keyword.replacePolishSigns().contains(query.replacePolishSigns())
+    }
+}
 
 fun StationKeywordJson.toStationKeyword() = StationKeyword(
     id = id,
     keyword = keyword,
     stationId = stationId
 )
+
+fun String.replacePolishSigns(): String {
+    // temporary workaround, only for Polish signs (Check and German letters not covered for now)
+    // it will be fixed
+    return this
+        .lowercase()
+        .replace("ą", "a")
+        .replace("ć", "c")
+        .replace("ę", "e")
+        .replace("ł", "l")
+        .replace("ń", "n")
+        .replace("ó", "o")
+        .replace("ś", "s")
+        .replace("ź", "z")
+        .replace("ż", "z")
+}
