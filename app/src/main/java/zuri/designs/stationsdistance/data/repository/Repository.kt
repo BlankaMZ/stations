@@ -2,6 +2,7 @@ package zuri.designs.stationsdistance.data.repository
 
 import kotlinx.coroutines.flow.Flow
 import zuri.designs.stationsdistance.data.local.StationsDatabase
+import zuri.designs.stationsdistance.data.model.Station
 import zuri.designs.stationsdistance.data.model.StationKeyword
 import zuri.designs.stationsdistance.data.model.toStation
 import zuri.designs.stationsdistance.data.model.toStationKeyword
@@ -31,4 +32,8 @@ class Repository @Inject constructor(
 
     val keywords: Flow<List<StationKeyword>>
         get() = koleoStationsDao.getAllStationKeywords()
+
+    suspend fun getSearchedStations(ids: List<Int>): List<Station> {
+        return koleoStationsDao.findByStationIds(ids).sortedByDescending { station -> station.hits }
+    }
 }

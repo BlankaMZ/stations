@@ -6,5 +6,6 @@
     <string name="station_of_destination">To:</string>
     <string name="common_search">Search</string>
     <string name="search_ellipsis">Search…</string>
+    <string name="type_to_search">Type to search…</string>
 
 </resources>

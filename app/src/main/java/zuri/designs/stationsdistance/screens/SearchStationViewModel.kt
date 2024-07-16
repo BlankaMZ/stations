@@ -2,7 +2,6 @@ package zuri.designs.stationsdistance.screens
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
@@ -29,17 +28,18 @@ class SearchStationViewModel @Inject constructor(
         _searchQuery.value = query
     }
 
-    @OptIn(FlowPreview::class)
-    val keywords = searchQuery
-        .debounce(300L)
+    val stations = searchQuery
+        .debounce(200L)
         .onEach { _isSearching.update { true } }
         .combine(_keywords) { text, keywords ->
             if (text.isBlank()) {
-                keywords
+                emptyList()
             } else {
-                keywords.filter { keyword ->
-                    keyword.doesMatchSearchQuery(text)
-                }
+                repository.getSearchedStations(
+                    keywords.filter { keyword ->
+                        keyword.doesMatchSearchQuery(text)
+                    }.map { it.stationId }
+                )
             }
         }.onEach {
             _isSearching.update { false }

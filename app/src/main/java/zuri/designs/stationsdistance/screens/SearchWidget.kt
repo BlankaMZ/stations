@@ -17,14 +17,17 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import zuri.designs.stationsdistance.R
-import zuri.designs.stationsdistance.data.model.StationKeyword
+import zuri.designs.stationsdistance.data.model.Station
 
 @Composable
 fun SearchWidget(
     text: String,
+    focusRequester: FocusRequester,
     onTextChange: (String) -> Unit,
     onCloseClicked: () -> Unit
 ) {
@@ -35,12 +38,13 @@ fun SearchWidget(
     ) {
         TextField(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .focusRequester(focusRequester),
             value = text,
             onValueChange = { onTextChange(it) },
             placeholder = {
                 Text(
-                    text = stringResource(id = R.string.search_ellipsis)
+                    text = stringResource(id = R.string.type_to_search)
                 )
             },
             singleLine = true,
@@ -72,7 +76,7 @@ fun SearchWidget(
 
 @Composable
 fun ListContent(
-    items: List<StationKeyword>,
+    items: List<Station>,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -83,7 +87,7 @@ fun ListContent(
         items(
             items
         ) {
-            Text(it.keyword)
+            Text(it.name)
         }
     }
 }

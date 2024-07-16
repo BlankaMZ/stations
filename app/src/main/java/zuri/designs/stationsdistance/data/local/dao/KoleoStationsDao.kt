@@ -25,4 +25,7 @@ interface KoleoStationsDao {
 
     @Query("SELECT * FROM stations_table WHERE id =:id")
     suspend fun getStation(id: Int): Station
+
+    @Query("SELECT * FROM stations_table where id IN (:ids)")
+    suspend fun findByStationIds(ids: List<Int>): List<Station>
 }
