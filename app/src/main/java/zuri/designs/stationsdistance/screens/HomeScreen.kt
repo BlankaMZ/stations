@@ -19,6 +19,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -34,7 +35,6 @@ fun HomeScreen(
     destinationStationId: Int = -1,
     onSetOriginStationClicked: () -> Unit = {},
     onSetDestinationClicked: () -> Unit = {},
-    onSearchButtonClicked: () -> Unit = {},
     viewModel: HomeScreenViewModel = hiltViewModel(),
     navController: NavHostController
 ) {
@@ -44,7 +44,12 @@ fun HomeScreen(
             viewModel.prepareStationKeywords()
         }
         if (originStationId != -1) viewModel.setChosenStation(StationType.ORIGIN, originStationId)
-        if (destinationStationId != -1) viewModel.setChosenStation(StationType.DESTINATION, destinationStationId)
+        if (destinationStationId != -1) {
+            viewModel.setChosenStation(
+                StationType.DESTINATION,
+                destinationStationId
+            )
+        }
     }
 
     Scaffold(
@@ -73,14 +78,41 @@ fun HomeScreen(
                     onPlaceFieldClicked = { onSetDestinationClicked() }
                 )
                 Button(
-                    onClick = { onSearchButtonClicked() },
+                    onClick = {
+                        viewModel.calculateTheDistance()
+                    },
                     enabled = viewModel.buttonEnabled,
                     modifier = Modifier
                         .widthIn(240.dp)
                         .padding(vertical = 16.dp)
                         .padding(top = 8.dp)
                 ) {
-                    Text(stringResource(id = R.string.common_search))
+                    Text(stringResource(id = R.string.common_calculate))
+                }
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = modifier
+                        .padding(horizontal = 32.dp)
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            stringResource(id = R.string.approximate_distance),
+                            textAlign = TextAlign.Center
+                        )
+                        if (viewModel.distanceBetweenStations != -1.0) {
+                            Text(
+                                "${viewModel.distanceBetweenStations} ${stringResource(id = R.string.common_km)}",
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.padding(top = 16.dp)
+                            )
+                        }
+                    }
                 }
             }
         }

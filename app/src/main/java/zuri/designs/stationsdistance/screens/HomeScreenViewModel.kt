@@ -10,6 +10,7 @@ import zuri.designs.stationsdistance.data.model.Station
 import zuri.designs.stationsdistance.data.model.StationType
 import zuri.designs.stationsdistance.data.repository.Repository
 import javax.inject.Inject
+import kotlin.math.round
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
@@ -17,7 +18,7 @@ class HomeScreenViewModel @Inject constructor(
 ) : ViewModel() {
 
     val buttonEnabled by derivedStateOf {
-        false
+        origin.id != -1 && destination.id != -1
     }
 
     var origin: Station by mutableStateOf(
@@ -42,6 +43,9 @@ class HomeScreenViewModel @Inject constructor(
     )
         private set
 
+    var distanceBetweenStations by mutableStateOf(-1.0)
+        private set
+
     suspend fun prepareStations() {
         repository.updateAllStations()
     }
@@ -55,5 +59,23 @@ class HomeScreenViewModel @Inject constructor(
             StationType.ORIGIN -> origin = repository.getChosenStation(id)
             StationType.DESTINATION -> destination = repository.getChosenStation(id)
         }
+    }
+
+    // using haversine calculation for an approximate straight line distance that will work offline
+    fun calculateTheDistance() {
+        val earthRadiusInKm = 6372.8
+        val dLat = Math.toRadians(destination.latitude - origin.latitude)
+        val dLon = Math.toRadians(destination.longitude - origin.longitude)
+        val originLat = Math.toRadians(origin.latitude)
+        val destinationLat = Math.toRadians(destination.latitude)
+
+        val a = Math.pow(Math.sin(dLat / 2), 2.toDouble()) + Math.pow(
+            Math.sin(dLon / 2),
+            2.toDouble()
+        ) * Math.cos(originLat) * Math.cos(destinationLat)
+        val c = 2 * Math.asin(Math.sqrt(a))
+        val result = earthRadiusInKm * c
+        val roundedResult = (round(result * 100)) / 100
+        distanceBetweenStations = roundedResult
     }
 }

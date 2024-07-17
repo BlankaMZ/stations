@@ -4,7 +4,9 @@
     <string name="main_title">Calculate the distance</string>
     <string name="station_of_origin">From:</string>
     <string name="station_of_destination">To:</string>
-    <string name="common_search">Search</string>
+    <string name="approximate_distance">The approximate distance \nin straight line is:</string>
+    <string name="common_calculate">Calculate</string>
+    <string name="common_km">km</string>
     <string name="search_ellipsis">Search…</string>
     <string name="type_to_search">Type to search…</string>
 
