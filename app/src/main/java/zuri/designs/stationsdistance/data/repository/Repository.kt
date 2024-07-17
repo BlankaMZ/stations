@@ -36,4 +36,8 @@ class Repository @Inject constructor(
     suspend fun getSearchedStations(ids: List<Int>): List<Station> {
         return koleoStationsDao.findByStationIds(ids).sortedByDescending { station -> station.hits }
     }
+
+    suspend fun getChosenStation(id: Int): Station {
+        return koleoStationsDao.getStation(id)
+    }
 }

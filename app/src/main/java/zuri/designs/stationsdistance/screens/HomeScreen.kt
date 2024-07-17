@@ -25,10 +25,13 @@ import androidx.navigation.NavHostController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import zuri.designs.stationsdistance.R
+import zuri.designs.stationsdistance.data.model.StationType
 
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
+    originStationId: Int = -1,
+    destinationStationId: Int = -1,
     onSetOriginStationClicked: () -> Unit = {},
     onSetDestinationClicked: () -> Unit = {},
     onSearchButtonClicked: () -> Unit = {},
@@ -40,6 +43,8 @@ fun HomeScreen(
             viewModel.prepareStations()
             viewModel.prepareStationKeywords()
         }
+        if (originStationId != -1) viewModel.setChosenStation(StationType.ORIGIN, originStationId)
+        if (destinationStationId != -1) viewModel.setChosenStation(StationType.DESTINATION, destinationStationId)
     }
 
     Scaffold(
@@ -58,11 +63,13 @@ fun HomeScreen(
                     .fillMaxSize()
             ) {
                 TextWithField(
-                    name = stringResource(id = R.string.station_of_origin),
+                    label = stringResource(id = R.string.station_of_origin),
+                    name = viewModel.origin.name,
                     onPlaceFieldClicked = { onSetOriginStationClicked() }
                 )
                 TextWithField(
-                    name = stringResource(id = R.string.station_of_destination),
+                    label = stringResource(id = R.string.station_of_destination),
+                    name = viewModel.destination.name,
                     onPlaceFieldClicked = { onSetDestinationClicked() }
                 )
                 Button(
@@ -82,6 +89,7 @@ fun HomeScreen(
 
 @Composable
 fun TextWithField(
+    label: String,
     name: String,
     modifier: Modifier = Modifier,
     onPlaceFieldClicked: () -> Unit = {}
@@ -95,11 +103,11 @@ fun TextWithField(
             .padding(vertical = 8.dp)
     ) {
         Text(
-            name,
+            label,
             modifier = Modifier.weight(1f)
         )
         TextField(
-            value = "",
+            value = name,
             onValueChange = {},
             modifier
                 .weight(3f)

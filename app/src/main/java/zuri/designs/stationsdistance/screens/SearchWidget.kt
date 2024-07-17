@@ -1,5 +1,6 @@
 package zuri.designs.stationsdistance.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -77,7 +78,8 @@ fun SearchWidget(
 @Composable
 fun ListContent(
     items: List<Station>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onStationClicked: (Int) -> Unit
 ) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
@@ -87,7 +89,13 @@ fun ListContent(
         items(
             items
         ) {
-            Text(it.name)
+            Text(
+                it.name,
+
+                modifier = Modifier.clickable {
+                    onStationClicked(it.id)
+                }
+            )
         }
     }
 }

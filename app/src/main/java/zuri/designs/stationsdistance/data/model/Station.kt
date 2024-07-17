@@ -32,3 +32,7 @@ fun StationJson.toStation() = Station(
     longitude = longitude,
     hits = hits
 )
+
+enum class StationType {
+    ORIGIN, DESTINATION
+}
