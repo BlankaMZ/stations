@@ -78,4 +78,8 @@ class HomeScreenViewModel @Inject constructor(
         val roundedResult = (round(result * 100)) / 100
         distanceBetweenStations = roundedResult
     }
+
+    fun resetTheDistance(){
+        distanceBetweenStations = -1.0
+    }
 }

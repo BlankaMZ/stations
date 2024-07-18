@@ -70,12 +70,18 @@ fun HomeScreen(
                 TextWithField(
                     label = stringResource(id = R.string.station_of_origin),
                     name = viewModel.origin.name,
-                    onPlaceFieldClicked = { onSetOriginStationClicked() }
+                    onPlaceFieldClicked = {
+                        onSetOriginStationClicked()
+                        viewModel.resetTheDistance()
+                    }
                 )
                 TextWithField(
                     label = stringResource(id = R.string.station_of_destination),
                     name = viewModel.destination.name,
-                    onPlaceFieldClicked = { onSetDestinationClicked() }
+                    onPlaceFieldClicked = {
+                        onSetDestinationClicked()
+                        viewModel.resetTheDistance()
+                    }
                 )
                 Button(
                     onClick = {
