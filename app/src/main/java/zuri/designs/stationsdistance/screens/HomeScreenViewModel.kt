@@ -5,7 +5,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import zuri.designs.stationsdistance.data.model.Station
 import zuri.designs.stationsdistance.data.model.StationType
 import zuri.designs.stationsdistance.data.repository.Repository
@@ -46,12 +49,15 @@ class HomeScreenViewModel @Inject constructor(
     var distanceBetweenStations by mutableStateOf(-1.0)
         private set
 
-    suspend fun prepareStations() {
-        repository.updateAllStations()
+    init {
+        prepareKeywordsAndStations()
     }
 
-    suspend fun prepareStationKeywords() {
-        repository.updateAllStationKeywords()
+    fun prepareKeywordsAndStations() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateAllStations()
+            repository.updateAllStationKeywords()
+        }
     }
 
     suspend fun setChosenStation(type: StationType, id: Int) {
@@ -79,7 +85,7 @@ class HomeScreenViewModel @Inject constructor(
         distanceBetweenStations = roundedResult
     }
 
-    fun resetTheDistance(){
+    fun resetTheDistance() {
         distanceBetweenStations = -1.0
     }
 }

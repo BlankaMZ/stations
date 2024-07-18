@@ -23,8 +23,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import zuri.designs.stationsdistance.R
 import zuri.designs.stationsdistance.data.model.StationType
 
@@ -38,18 +36,15 @@ fun HomeScreen(
     viewModel: HomeScreenViewModel = hiltViewModel(),
     navController: NavHostController
 ) {
-    LaunchedEffect(Unit) {
-        launch(Dispatchers.IO) {
-            viewModel.prepareStations()
-            viewModel.prepareStationKeywords()
-        }
+
+
+    LaunchedEffect(originStationId, destinationStationId) {
         if (originStationId != -1) viewModel.setChosenStation(StationType.ORIGIN, originStationId)
-        if (destinationStationId != -1) {
-            viewModel.setChosenStation(
-                StationType.DESTINATION,
-                destinationStationId
-            )
-        }
+        if (destinationStationId != -1) viewModel.setChosenStation(
+            StationType.DESTINATION,
+            destinationStationId
+        )
+
     }
 
     Scaffold(
